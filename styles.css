@@ -274,17 +274,13 @@
     text-decoration: none;
   }
   
-  /* Responsive design */
   @media (max-width: 768px) {
-    .grid-container {
-      grid-template-columns: 1fr;
+    .logo-container {
+        margin-left: 0.5rem; 
     }
     
     .nav-menu {
-      display: none;
+        margin-right: 0.5rem; 
+        gap: 1rem; 
     }
-    
-    #priceChart {
-      height: 300px !important;
-    }
-  }
+}
