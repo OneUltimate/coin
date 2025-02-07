@@ -2,30 +2,193 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
-    <title>ааа крипта крипта крипта!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Торговая платформа для neBANCOIN - безопасная и быстрая криптовалютная биржа">
+    <title>neBANCOIN Exchange | Криптовалютная биржа</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
 </head>
 <body>
-    <div class="container"></div>
+    <div class="container">
         <header>
-            <h1>neBITCOIN</h1>
-            <h4></h4>
-            <a href="/"><img src="page.png" alt=""></a>
+            <nav>
+                <div class="logo-container">
+                    <a href="/"><img src="page.png" alt="neBANCOIN лого"></a>
+                    <h1>neBANCOIN Exchange</h1>
+                    <div class="price-ticker">
+                        <span id="priceDisplay">Загрузка...</span>
+                        <span id="priceChange" class="change"></span>
+                    </div>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#trade"><i class="fas fa-chart-line"></i> Торговля</a></li>
+                    <li><a href="#wallet"><i class="fas fa-wallet"></i> Кошелек</a></li>
+                    <li><a href="#history"><i class="fas fa-history"></i> История</a></li>
+                </ul>
+            </nav>
         </header>
 
         <main>
-            <canvas id="myChart"></canvas>
-            <c1 id="randomValue"></c1>
-         
-            
+            <div class="price-ticker">
+                <span>neBAN/USD: $0,0013 <span class="change positive">+200.4%</span></span>
+                <span>24h Капитализация: $7,2 <span class="change positive">+3.5%</span></span>
+            </div>
+
+            <div class="grid-container">
+                <section class="chart-section">
+                    <div class="trading-pairs">
+                        <button class="pair active">neBAN/USD</button>
+                        <button class="pair">neBAN/ETH</button>
+                        <button class="pair">neBAN/EUR</button>
+                        
+                        
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                    
+                    
+                    
+                </section>
+
+                <aside class="order-book">
+                    <h3>Ордербук</h3>
+                    <div class="orders-list">
+                        <div class="bid-asks">
+                            <div class="bids">
+                                <h4>Покупка (Bids)</h4>
+                                <!-- Сюда будет вставляться динамический контент -->
+                            </div>
+                            <div class="asks">
+                                <h4>Продажа (Asks)</h4>
+                                <!-- Сюда будет вставляться динамический контент -->
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <section class="trade-form">
+                    <div class="balance-info">
+                        <p>Доступно: <span class="usd-balance">$13</span></p>
+                        <p>neBAN: <span class="btc-balance">12.235</span></p>
+                    </div>
+                    <form id="orderForm">
+                        <div class="form-group">
+                            <label>Тип ордера:</label>
+                            <select id="orderType">
+                                <option value="market">Рыночный</option>
+                                <option value="limit">Лимитный</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Сумма (neBAN):</label>
+                            <input type="number" step="0.0001" required>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="buy-btn">Купить neBAN</button>
+                            <button type="submit" class="sell-btn">Продать neBAN</button>
+                        </div>
+                    </form>
+                </section>
+                    
+                
+            </div>
         </main>
+
         <footer>
-            <p>&copy; 2025</p>
+            <div class="footer-content">
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+                <div class="legal-info">
+                    <a href="#">Пользовательское соглашение</a>
+                    <a href="#">Политика конфиденциальности</a>
+                </div>
+                <p>&copy; 2025 neBANCOIN Exchange. Все права защищены</p>
+            </div>
         </footer>
+        <script>
+            // Инициализация графика
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            
+            const chartConfig = {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'neBAN/USD',
+                        data: [],
+                        borderColor: '#16c784',
+                        backgroundColor: 'rgba(22, 199, 132, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: { color: '#323546' },
+                            ticks: {
+                                color: '#848E9C',
+                                callback: value => `$${value.toFixed(2)}`
+                            }
+                        },
+                        x: {
+                            grid: { color: '#323546' },
+                            ticks: { color: '#848E9C' }
+                        }
+                    }
+                }
+            };
+
+            const myChart = new Chart(ctx, chartConfig);
+
+            // Генератор данных
+            let lastPrice = 0.00013;
+            const MAX_POINTS = 150;
+
+            setInterval(() => {
+                const change = (Math.random() - 0.5) * 20;
+                const newPrice = lastPrice + change;
+                const changePercent = ((change / lastPrice) * 100).toFixed(2);
+
+                if (myChart.data.labels.length >= MAX_POINTS) {
+                    myChart.data.labels.shift();
+                    myChart.data.datasets[0].data.shift();
+                }
+
+                myChart.data.labels.push(new Date().toLocaleTimeString());
+                myChart.data.datasets[0].data.push(newPrice);
+
+                const isPositive = change >= 0;
+                myChart.data.datasets[0].borderColor = isPositive ? '#16c784' : '#ea3943';
+                myChart.data.datasets[0].backgroundColor = isPositive 
+                    ? 'rgba(22, 199, 132, 0.1)' 
+                    : 'rgba(234, 57, 67, 0.1)';
+
+                document.getElementById('priceDisplay').textContent = 
+                    `neBAN/USD: $${newPrice.toFixed(2)}`;
+                
+                const changeElement = document.getElementById('priceChange');
+                changeElement.textContent = `${isPositive ? '+' : ''}${changePercent}%`;
+                changeElement.className = `change ${isPositive ? 'positive' : 'negative'}`;
+
+                myChart.update();
+                lastPrice = newPrice;
+            }, 150);
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="script.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+        <script src="app.js"></script>
     </div>
 </body>
-
 </html>
