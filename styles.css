@@ -1,66 +1,288 @@
-body {
-    background-color: #111; /* Тёмно-серый фон */
-    color: #80c080; /* Светло-зелёный текст */
-    font-family: sans-serif;
+/* Base styles */
+:root {
+    --primary-color: #2a2e35;
+    --secondary-color: #1a1d21;
+    --accent-green: #16c784;
+    --accent-red: #ea3943;
+    --text-primary: #ffffff;
+    --text-secondary: #848E9C;
+    --border-color: #323546;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+  
+  /* Container */
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  /* Header styles */
+  header {
+    background-color: var(--primary-color);
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .logo-container img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .nav-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  
+  .nav-menu a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .nav-menu a:hover {
+    color: var(--text-primary);
+  }
+  
+  /* Price ticker */
+  .price-ticker {
+    background-color: var(--primary-color);
+    padding: 0.8rem;
+    margin: 1rem 0;
+    display: flex;
+    gap: 2rem;
+    border-radius: 8px;
+  }
+  
+  .change {
+    font-weight: bold;
+  }
+  
+  .positive { color: var(--accent-green); }
+  .negative { color: var(--accent-red); }
+  
+  /* Grid layout */
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  
+  /* Chart section */
+  .chart-section {
+    grid-row: span 2;
+    background-color: var(--primary-color);
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  #priceChart {
+    height: 500px !important;
+    margin-top: 1rem;
+  }
+  
+  .trading-pairs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .pair {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .pair.active {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+  }
+  
+  /* Order book */
+  .order-book {
+    background-color: var(--primary-color);
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .orders-list {
+    margin-top: 1rem;
+  }
+  
+  .bid-asks {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  .bids, .asks {
+    display: grid;
+    gap: 0.5rem;
+  }
+  
+  /* Trade form */
+  .trade-form {
+    background-color: var(--primary-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+  
+  .balance-info {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 6px;
+  }
+  
+  .button-group {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .buy-btn {
+    background-color: var(--accent-green);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .sell-btn {
+    background-color: var(--accent-red);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  /* Recent trades */
+  .recent-trades {
+    background-color: var(--primary-color);
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  #tradesTable {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+  }
+  
+  #tradesTable th,
+  #tradesTable td {
+    padding: 0.8rem;
+    text-align: right;
+  }
+  
+  #tradesTable th {
+    color: var(--text-secondary);
+  }
+  
+  #tradesTable tr:nth-child(even) {
+    background-color: var(--secondary-color);
+  }
+  
+  /* Footer */
+  footer {
+    margin-top: 3rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .footer-content {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-}
-
-header {
-    background-color: #222;
-    padding: 1em;
-    text-align: center;
-    color: #80c080;
-}
-
-header h1 {
-    font-size: 2em;
-    margin-bottom: 0.5em;
-   
-    
-}
-
-header h4 {
-    font-size: 1em;
-    margin-top: 0;
-}
-
-header img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 1em auto;
-}
-
-main {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end; /* График справа */
     align-items: center;
-    padding: 2em;
-}
-
-canvas {
-    width: 200px;
-    height: 100px;
-    margin-left: 2em; /* Отступ слева */
-    left: 50%;
-    top: 50%;
-    text-transform: auto;
-    height: 100px;
-    width: 100px;
-}
-
-footer {
-    background-color: #222;
-    padding: 1em;
-    text-align: center;
-    color: #80c080;
-
-}
-
-.container {
-    min-width: 1200px;
-}
+    gap: 1.5rem;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .social-links a {
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    transition: color 0.3s;
+  }
+  
+  .social-links a:hover {
+    color: var(--text-primary);
+  }
+  
+  .legal-info {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .legal-info a {
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .nav-menu {
+      display: none;
+    }
+    
+    #priceChart {
+      height: 300px !important;
+    }
+  }
