@@ -274,13 +274,17 @@
     text-decoration: none;
   }
   
+  /* Responsive design */
   @media (max-width: 768px) {
-    .logo-container {
-        margin-left: 0.5rem; 
+    .grid-container {
+      grid-template-columns: 1fr;
     }
     
     .nav-menu {
-        margin-right: 0.5rem; 
-        gap: 1rem; 
+      display: none;
     }
-}
+    
+    #priceChart {
+      height: 300px !important;
+    }
+  }
